@@ -1,0 +1,44 @@
+<?php
+//is the post set?
+if(isset($_GET['title']) && isset($_GET['content']))
+{
+$_GET = array_map("strip_tags", $_GET);
+$_GET = array_map("trim", $_GET);
+
+//check if there is content
+$conn = new mysqli('localhost', 'root', '', 'gary');
+
+if(mysqli_connect_errno())
+{
+exit('Connect failed: ' . mysqli_connect_error());
+}
+
+$adds['title'] = $conn->real_escape_string($_GET['title']);
+$adds['content'] = $conn->real_escape_string($_GET['content']);
+$adds['picture'] = $conn->real_escape_string($_GET['picture']);
+
+$sql = "INSERT INTO postings(title, content, picture) VALUES('" . $adds['title'] . "', '" . $adds['content'] . "', '" . $adds['picture'] .  "')";
+
+if($conn->query($sql) === TRUE)
+{
+echo '<p style = "font-size: 20px; text-align: center;">users entry saved successfully</p>';
+echo '<p style = "font-size: 20px; text-align: center;">' . $_GET['title'] . '</p>';
+echo '<p style = "font-size: 20px; margin-right: 20px;">' .  $_GET['content'] . '</p>';
+
+$display = '<img src="upload/';
+$display .= $adds['picture'];
+$display .= '"';
+$display .= ' alt="image" id="picture"';
+echo $adds['picture'];
+echo $display;
+}
+else{
+	echo 'Error: ' . $conn->error;
+}
+$conn->close();
+}//errors detected
+else{
+echo 'No data from form';
+}
+
+?>

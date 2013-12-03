@@ -1,0 +1,155 @@
+<!DOCTYPE>
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+<style>
+
+body{
+background-image: url('http://i26.photobucket.com/albums/c123/meche05/250px-Gay_flag.png');
+background-repeat: repeat;
+}
+
+p, h1, #posts{
+display: block;
+width: 85%;
+background-color: purple;
+margin: auto;
+}
+
+p{
+text-align: center;
+font-style: Times;
+font-size: 2em;
+display: block;
+line-height: 1em;
+color: black;
+padding-top: 10%;
+padding-bottom: .5%;
+}
+
+
+
+h1{
+font-size: 4em;
+padding-bottom: 2%;
+padding-top: 5%;
+text-align: center;
+}
+
+#posts{
+height: 50%;
+}
+
+#img{
+display: block;
+max-height: 100%;
+margin: auto;
+}
+
+#purple{
+background-color: black;
+}
+
+
+</style>
+
+
+<title>Gary View</title>
+
+</head>
+<?php
+$conn = new mysqli('localhost', 'root', '', 'gary');
+
+if(mysql_errno())
+{
+exit(mysql_connect_error());
+}
+
+$get_min_id = "SELECT MIN(id) AS id FROM postings";
+$get_max_id = "SELECT MAX(id) AS id FROM postings";
+$expire = time() + 6000;
+
+$min_result = $conn->query($get_min_id);
+$max_result = $conn->query($get_max_id);
+
+
+if($min_result->num_rows > 0 && $max_result > 0)
+{
+$min_row = $min_result->fetch_assoc();
+$max_row = $max_result->fetch_assoc();
+$max_id = $max_row['id'];
+$min_id = $min_row['id'];
+setcookie("min", $min_id, $expire);
+setcookie("max", $max_id, $expire);
+
+$initial_id = rand($min_id, $max_id);
+$check_for_id = "SELECT * FROM postings WHERE id=$initial_id";
+while(!$conn->query($check_for_id)){
+$initial_id = rand($min_id, $max_id);
+}
+setcookie("initial_id", $initial_id, $expire);
+}
+else{
+echo 'Sorry no result';
+}
+
+?>
+
+
+<body>
+<div class="row-fluid">
+<nav class="navbar-fixed-top">
+<ul class="nav nav-tabs" id="purple">
+  <li class="span2"><a href="about.php">About</a></li>
+  <li class="span2"><a href="gary.php">Post a Gary</a></li>
+<?php
+echo '<li class="span2"><a href="starcheck.php?id=' . $_COOKIE['initial_id']  . '" >Rate a Gary</a></li>';
+?>
+  <li class="span2"><a href="http://www.howaboutwe.com/dating/gaymen?utm_medium=SEM&utm_source=Gsearch_Dating&utm_campaign=NYC-T01-Beta-Search&utm_content=g&utm_term=%2Bgay%20%2Bdating&utm_position=1t2&utm_matchtype=b&utm_adgroup=gay_dating_%3Cgay%3E&utm_device=c&jadid=42675297928&jap=1t2&jk=%2Bgay%20%2Bdating&jkId=gc:a8a8ae4cd397371df0139a46951321cf0:t1_b_:k_%2Bgay%20%2Bdating:pl_&jp=&js=1&jsid=31539&jt=1&gclid=CJDK6pSb2LkCFU-Z4AodXXYA7w">Meet a Gary</a></li>
+<?php
+if($_COOKIE['userlogin'])
+{
+$user = $_COOKIE['userlogin'];
+echo  '<li class="span2"><a href="signout.php">Sign Out</a></li>';
+echo '<li class="span2"><a href="#">' . $user . '\'s Info</a></li>';
+}else{
+echo  '<li class="span2"><a href="signup.php">Sign Up</a></li>';
+echo  '<li class="span2"><a href="main_login.php">Sign In</a></li>';
+}
+?>
+</ul>
+</nav>
+</div>
+
+<?php
+$conn = new mysqli('localhost', 'root', '', 'gary');
+if(mysqli_connect_errno()){
+exit('Connect failed: ' . mysqli_connect_error());
+}
+$sql = "SELECT * FROM postings";
+$result = $conn->query($sql);
+if($result->num_rows >0){
+	while($row = $result->fetch_assoc()){
+if($_COOKIE['userlogin'])
+{
+//echo '<p style="display: inline;">Welcome ' . $_COOKIE['userlogin'] . '</p>';
+}
+echo '<div id="posts" class="row-fluid">';
+echo '<a href="';
+echo 'garypics.php?title=' . $row['title'] . '">';
+echo ' <h1>' . $row['title'] . '</h1></a>'; 
+echo '<img id="img" src="';
+echo $row['picture'];
+echo '"';
+echo ' alt="image"/>';
+echo '</div>';
+echo '<p>' . $row['content'] . '</p>'; 
+}
+
+}
+
+?>
+
+
+</body>
+</html>
