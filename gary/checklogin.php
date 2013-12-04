@@ -40,17 +40,15 @@ $expire_date = time() + 120;
 setcookie("userlogin", $myusername, $expiry_date);
 header("location: garyview.php");
 }
-else{
-echo "wrong username or password";
-header("location: main_login.php");
+else{ 
+header("location: garyview.php");
+
 }
 }else{
-echo "wrong username or password 1" . $password;
-header("location: main_login.php");
+header("location: garyview.php");
 }
 }else{
-echo "wrong username or password 2" . $password;
-header("location: main_login.php");
+header("location: garyview.php");
 }
 ?>
 </body>

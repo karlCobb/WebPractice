@@ -46,12 +46,14 @@ echo '<li class="span2"><a href="starcheck.php?id=' . $_COOKIE['initial_id']  . 
 ?>
   <li class="span2"><a href="http://www.howaboutwe.com/dating/gaymen?utm_medium=SEM&utm_source=Gsearch_Dating&utm_campaign=NYC-T01-Beta-Search&utm_content=g&utm_term=%2Bgay%20%2Bdating&utm_position=1t2&utm_matchtype=b&utm_adgroup=gay_dating_%3Cgay%3E&utm_device=c&jadid=42675297928&jap=1t2&jk=%2Bgay%20%2Bdating&jkId=gc:a8a8ae4cd397371df0139a46951321cf0:t1_b_:k_%2Bgay%20%2Bdating:pl_&jp=&js=1&jsid=31539&jt=1&gclid=CJDK6pSb2LkCFU-Z4AodXXYA7w">Meet a Gary</a></li>
 <?php
+
 if($_COOKIE['userlogin'])
 {
 $user = $_COOKIE['userlogin'];
 echo  '<li class="span2"><a href="signout.php">Sign Out</a></li>';
 echo '<li><a href="#">' . $user . '\'s Info</a></li>';
 }else{
+
 echo '<li class="span3"></li>';
 echo  '<li class="span2"><a href="signup.php">Sign Up</a></li>';
 echo  '<li class="dropdown span2">';
