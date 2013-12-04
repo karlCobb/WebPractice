@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="js/bootstrap/bootstrap.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
 <link type="text/css" rel="stylesheet" href="css/main_page.css"/>
 <title>Gary View</title>
@@ -36,9 +37,8 @@ setcookie("initial_id", $id_array[$rand_id], $expire);
 
 
 <body>
-<div class="row-fluid">
 <nav class="navbar-fixed-top">
-<ul class="nav nav-tabs" id="purple">
+<ul class="nav nav-pills" id="purple">
   <li class="span2"><a href="about.php">About</a></li>
   <li class="span2"><a href="gary.php">Post a Gary</a></li>
 <?php
@@ -50,15 +50,25 @@ if($_COOKIE['userlogin'])
 {
 $user = $_COOKIE['userlogin'];
 echo  '<li class="span2"><a href="signout.php">Sign Out</a></li>';
-echo '<li class="span2"><a href="#">' . $user . '\'s Info</a></li>';
+echo '<li><a href="#">' . $user . '\'s Info</a></li>';
 }else{
+echo '<li class="span3"></li>';
 echo  '<li class="span2"><a href="signup.php">Sign Up</a></li>';
-echo  '<li class="span2"><a href="main_login.php">Sign In</a></li>';
+echo  '<li class="dropdown span2">';
+echo '<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>';
+echo '<div class="dropdown-menu">';
+echo '<form name="form1" class="bootstrap-form" method="post" action="checklogin.php">';
+echo 'Username <input class="input-group" name="myusername" type="text" id="user_username">';
+echo 'Password <input name="mypassword" type="password" id="user_password">';
+echo '<input class="btn btn-primary" id="btn-center" type="submit" name="Submit" value="Login">';
+echo '</form>';
+
 }
 ?>
+</div>
+</li>
 </ul>
 </nav>
-</div>
 
 <?php
 $conn = new mysqli('localhost', 'root', '', 'gary');
@@ -68,22 +78,27 @@ exit('Connect failed: ' . mysqli_connect_error());
 $sql = "SELECT * FROM postings";
 $result = $conn->query($sql);
 if($result->num_rows > 0){
-echo '<div id="first-post" class="row-fluid">';
+
 	while($row = $result->fetch_assoc()){
 if($_COOKIE['userlogin'])
 {
 //echo '<p style="display: inline;">Welcome ' . $_COOKIE['userlogin'] . '</p>';
 }
+echo '<div id="left-column"></div>';
+echo '<div id="content" class="row-fluid">';
 echo '<a href="';
 echo 'garypics.php?id=' . $row['id'] . '">';
-echo ' <h1>' . $row['title'] . '</h1></a>';
-echo '<img id="img" class="img-responsive" src="';
+echo ' <h1 class="text-center">' . $row['title'] . '</h1></a>';
+echo '<img id="img"  class="img-responsive" src="';
 echo $row['picture'];
 echo '"';
 echo ' alt="image"/>';
-echo '<p>' . $row['content'] . '</p>'; 
+echo '<p class="text-center">' . $row['content'] . '</p>'; 
 echo '</div>';
-echo '<div id="posts" class="row-fluid">';
+echo '<div id="right-column"></div>';
+echo '<div id="clear"></div>';
+
+
 }
 
 }
