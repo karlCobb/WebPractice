@@ -33,11 +33,19 @@ if(mysql_errno())
 exit('Connect failed: ' . mysqli_connect_error());
 }
 
+//password variables for secure hashing
+
+$cost = 10;
+$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+$salt = sprintf("$2a$%02d$", $cost) . $salt;
+
+
 
 $user = mysql_real_escape_string($_POST['user']);
 $password = mysql_real_escape_string($_POST['password']);
 $email = mysql_real_escape_string($_POST['email']);
 $retype = mysql_real_escape_string($_POST['retype']);
+
 
 $error_message = array();
 
@@ -68,6 +76,7 @@ $error_message[] .= 'Your passwords do not match';
 }
 
 
+
 if(!empty($error_message)){
 echo '<ul>';
 	foreach($error_message as $value){
@@ -76,6 +85,11 @@ echo '<ul>';
 echo '</ul>';
 }
 else{
+
+//hash password with salt
+$password = crypt($password, $salt);
+
+echo $password;
 
 $activation = MD5(uniqid(rand(), true));
 $sql = "INSERT INTO members(username, password, email, activation) values('$user', '$password', '$email', '$activation')"; 

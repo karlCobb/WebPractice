@@ -22,45 +22,21 @@ $myusername=$_POST['myusername'];
 $mypassword=$_POST['mypassword'];
 $myusername = $conn->real_escape_string($myusername);
 $mypassword = $conn->real_escape_string($mypassword);
-
-$sql = "SELECT * FROM $table WHERE username='$myusername'";
+$sql = "SELECT * FROM $table WHERE username='$myusername' and password = '$mypassword'";
 $result = $conn->query($sql);
 
-if($result->num_rows > 0){
-$num_rows = $result->num_rows;
-
-if($num_rows > 0){
-$row = $result->fetch_assoc();
-$password = $row['password'];
-
-
-if(crypt($mypassword, $password) == $password)
+if($result->num_rows === 1)
 {
+$row = $result->fetch_assoc();
 $expire_date = time() + 120;
 setcookie("userlogin", $myusername, $expiry_date);
 header("location: garyview.php");
+
 }
 else{
 echo "wrong username or password";
 header("location: main_login.php");
 }
-}else{
-echo "wrong username or password 1" . $password;
-header("location: main_login.php");
-}
-}else{
-echo "wrong username or password 2" . $password;
-header("location: main_login.php");
-}
 ?>
 </body>
-
-
-
-
-
-
-
-
-
 

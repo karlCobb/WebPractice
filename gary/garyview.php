@@ -1,85 +1,12 @@
 <!DOCTYPE>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link type="text/css" rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
 <link type="text/css" rel="stylesheet" href="css/main_page.css"/>
-<style>
-
-body{
-//background-image: url('http://i26.photobucket.com/albums/c123/meche05/250px-Gay_flag.png');
-background-image: url('http://127.0.0.1/templates/gary/img/GayFlag.png');
-background-repeat: repeat;
-}
-
-p, h1, #first-post, #posts{
-display: block;
-width: 85%;
-background-color: purple;
-margin: auto;
-}
-
-p{
-text-align: center;
-font-style: Times;
-font-size: 2em;
-line-height: 1em;
-color: black;
-padding-bottom: .5%;
-padding-top: 2%
-}
-
-
-
-h1{
-font-size: 4em;
-padding-bottom: 5%;
-padding-top: 5%;
-text-align: center;
-}
-
-
-#first-post, #posts{
-padding-bottom: 5%;
-height: 700px;
-border: solid 1px black;
-}
-
-#img{
-display: block;
-margin: auto;
-height: auto;
-}
-
-#purple{
-background-color: black;
-}
-
-
-@media screen
-and (min-width: 300px) 
-and (max-width: 700px)
-{
-#posts{
-}
-p{
-font-size: 1.5em;
-text-align: left;
-}
-#img{
-display: block;
-width: auto;
-}
-#first-post{
-padding-top: 20%;
-}
-h1{
-line-height: 1em;
-}
-}
-</style>
-
-
 <title>Gary View</title>
+
 
 </head>
 <?php
@@ -150,7 +77,7 @@ if($_COOKIE['userlogin'])
 echo '<a href="';
 echo 'garypics.php?id=' . $row['id'] . '">';
 echo ' <h1>' . $row['title'] . '</h1></a>';
-echo '<img id="img" src="';
+echo '<img id="img" class="img-responsive" src="';
 echo $row['picture'];
 echo '"';
 echo ' alt="image"/>';
