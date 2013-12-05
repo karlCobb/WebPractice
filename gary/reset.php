@@ -10,7 +10,7 @@ Reset Password
 
 require_once '/home/nick/webstuff/www/templates/Swift-5.0.1/lib/swift_required.php';
 $gmail = 'garyberry999@gmail.com';
-$gmailpass = 'loudblack';
+$gmailpass = '';
 
 
 
